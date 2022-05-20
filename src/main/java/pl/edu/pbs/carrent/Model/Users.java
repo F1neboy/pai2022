@@ -5,8 +5,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @AllArgsConstructor
@@ -14,6 +18,12 @@ import java.util.List;
 @Data
 @Table(name="Users")
 public class Users {
+    public Users(String email, String username, String password) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
+
     @Id
     @GeneratedValue
     private Long id;
@@ -23,10 +33,16 @@ public class Users {
     private String phone;
     private String address;
     private Date Birthdate;
+    private String username;
+    @NotBlank
+    @Size(max = 120)
+    private String password;
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
-    @OneToOne
-    @JoinColumn(name="id_auth")
-    private Auth auth_users;
 
     @OneToMany(mappedBy = "users_reservation")
     private List<Reservation> reservation;

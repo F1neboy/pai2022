@@ -20,9 +20,6 @@ public class Employee {
     private String lastName;
     private String phone;
 
-    @OneToOne
-    @JoinColumn(name="id_auth")
-    private Auth auth_employee;
 
     @ManyToOne
     @JoinColumn(name="id_salon")
