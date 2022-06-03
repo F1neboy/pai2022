@@ -1,4 +1,4 @@
-package pl.edu.pbs.carrent.security.services;
+package pl.edu.pbs.carrent.Repository.security.services;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;

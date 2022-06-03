@@ -1,4 +1,4 @@
-package pl.edu.pbs.carrent.security.services;
+package pl.edu.pbs.carrent.Repository.security.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
