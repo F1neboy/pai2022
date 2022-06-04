@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.edu.pbs.carrent.Model.Users;
-import pl.edu.pbs.carrent.Repository.UserRepository;
+import pl.edu.pbs.carrent.model.User;
+import pl.edu.pbs.carrent.repository.UserRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,10 +16,10 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public List<Users> getItemsList(){
+    public List<User> getItemsList(){
         return userRepo.findAll();
     }
-    public Optional<Users> addUser(Users user){
+    public Optional<User> addUser(User user){
         user.setEmail(user.getEmail());
         user.setFirstName(user.getFirstName());
         user.setLastName(user.getLastName());
@@ -28,7 +28,7 @@ public class UserService {
         return  Optional.of(userRepo.save(user));
 
     }
-    public Optional<Users> getUserById(Long id){
+    public Optional<User> getUserById(Long id){
         return userRepo.findById(id);
     }
 
