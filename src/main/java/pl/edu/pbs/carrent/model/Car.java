@@ -17,9 +17,13 @@ public class Car {
     @GeneratedValue
     private Long id;
     private String model;
-    private Long id_salon;
+    private String description;
+    private String brand;
+    @ManyToOne
+    @JoinColumn(name="id_salon")
+    private Salon salon;
     private Boolean available;
 
-    @OneToMany(mappedBy = "cars_reservation")
+    @OneToMany(mappedBy = "car_reservation")
     private List<Reservation> reservations;
 }
