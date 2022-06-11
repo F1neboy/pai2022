@@ -2,6 +2,7 @@ package pl.edu.pbs.carrent.controller.impl;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.pbs.carrent.controller.CarController;
@@ -62,6 +63,7 @@ public class CarControllerImpl implements CarController {
 
     @Override
     @DeleteMapping("/cars/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCar(@PathVariable Long id) {
         carService.deleteCar(id);
     }

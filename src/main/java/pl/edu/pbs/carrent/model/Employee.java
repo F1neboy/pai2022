@@ -23,7 +23,7 @@ public class Employee {
 
     @ManyToOne
     @JoinColumn(name="id_salon")
-    private Salon salon_employee;
+    private Salon salonEmployee;
 
 
     @OneToMany(mappedBy = "employee_start")

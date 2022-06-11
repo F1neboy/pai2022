@@ -18,6 +18,7 @@ public class Reservation {
     private Long id;
     private Date startDate;
     private Date endDate;
+    @Enumerated(EnumType.STRING)
     private ReservationState state;
     private Date expected_end_date;
 

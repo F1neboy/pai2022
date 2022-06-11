@@ -19,7 +19,7 @@ public class Salon {
     private String city;
     private String address;
 
-    @OneToMany(mappedBy = "salon_employee")
+    @OneToMany(mappedBy = "salonEmployee")
     private List<Employee> employees;
 
     @OneToMany(mappedBy = "salon")
