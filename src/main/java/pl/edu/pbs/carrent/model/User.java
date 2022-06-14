@@ -18,8 +18,13 @@ import java.util.Set;
 @Data
 @Table(name="user")
 public class User {
-    public User(String email, String username, String password) {
+    public User(String firstName, String lastName, String email, String phone, String address, Date birthdate, String username, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.email = email;
+        this.phone = phone;
+        this.address = address;
+        Birthdate = birthdate;
         this.username = username;
         this.password = password;
     }

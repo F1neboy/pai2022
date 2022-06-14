@@ -1,5 +1,6 @@
 package pl.edu.pbs.carrent.controller;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -70,9 +71,11 @@ public class AuthController {
             return ResponseEntity.badRequest().body(new MessageResponse("Error: Email is already in use!"));
         }
         // Create new user's account
-        User user = new User(signUpRequest.getUsername(),
-                signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+//        User user = new User(signUpRequest.getUsername(),
+//                signUpRequest.getEmail(),
+////                encoder.encode(signUpRequest.getPassword()));
+        User user = new User(signUpRequest.getFirstName(), signUpRequest.getLastName(),signUpRequest.getEmail(), signUpRequest.getPhone(), signUpRequest.getAddress(),
+                signUpRequest.getBirthdate(), signUpRequest.getUsername(),encoder.encode(signUpRequest.getPassword()));
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
         if (strRoles == null) {
