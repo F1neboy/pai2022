@@ -19,6 +19,7 @@ public class Car {
     private String model;
     private String description;
     private String brand;
+    private String imageLink;
     @ManyToOne
     @JoinColumn(name="id_salon")
     private Salon salon;
