@@ -25,10 +25,10 @@ public class Salon {
     @OneToMany(mappedBy = "salon")
     private List<Car> cars;
 
-    @OneToMany(mappedBy = "salon_start")
-    private List<Reservation> reservations_start;
+    @OneToMany(mappedBy = "salonStart")
+    private List<Reservation> reservationsStart;
 
-    @OneToMany(mappedBy = "salon_end")
-    private List<Reservation> reservations_end;
+    @OneToMany(mappedBy = "salonEnd")
+    private List<Reservation> reservationsEnd;
 
 }

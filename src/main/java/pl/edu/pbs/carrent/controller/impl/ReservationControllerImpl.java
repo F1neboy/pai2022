@@ -1,5 +1,7 @@
 package pl.edu.pbs.carrent.controller.impl;
 
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,9 +16,13 @@ import pl.edu.pbs.carrent.service.ReservationService;
 import java.util.Date;
 import java.util.List;
 
+@RestController
+@AllArgsConstructor
+@RequestMapping("/api/v1")
+@Slf4j
 public class ReservationControllerImpl implements ReservationController {
 
-    private ReservationService reservationService;
+    private final ReservationService reservationService;
 
     @Override
     @GetMapping("/reservations")
@@ -52,18 +58,18 @@ public class ReservationControllerImpl implements ReservationController {
     @PostMapping("/reservation")
     public ResponseEntity<Reservation> addReservation(@RequestBody Reservation reservation, @RequestBody Car car) {
         Reservation reservation1=reservation;
-        reservation1.setCar_reservation(car);
+        reservation1.setCarReservation(car);
         return ResponseEntity.of(reservationService.addReservation(reservation1));
     }
 
     @Override
-    @PatchMapping("/reservation/{id}")
+    @PatchMapping("/reservation/status/{id}")
     public ResponseEntity<Reservation> updateReservationStatus(@PathVariable Long id, @RequestBody ReservationState reservationState) {
         return ResponseEntity.of(reservationService.updateReservationStatus(id, reservationState));
     }
 
     @Override
-    @PatchMapping("/reservation/{id}")
+    @PatchMapping("/reservation/end/{id}")
     public ResponseEntity<Reservation> updateEndDate(@PathVariable Long id, @RequestBody Date end_date) {
         return ResponseEntity.of(reservationService.updateEndDate(id, end_date));
     }

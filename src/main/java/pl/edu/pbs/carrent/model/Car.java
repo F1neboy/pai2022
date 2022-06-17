@@ -25,6 +25,6 @@ public class Car {
     private Salon salon;
     private Boolean available;
 
-    @OneToMany(mappedBy = "car_reservation")
+    @OneToMany(mappedBy = "carReservation")
     private List<Reservation> reservations;
 }

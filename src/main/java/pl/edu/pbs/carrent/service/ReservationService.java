@@ -12,6 +12,7 @@ public interface ReservationService {
     List<Reservation> getReservations();
 
     List<Reservation> getReservationBySalonStart(Long salonId);
+
     List<Reservation> getReservationBySalonEnd(Long salonId);
 
     List<Reservation> getReservationByUser(Long userId);

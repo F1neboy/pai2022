@@ -22,13 +22,13 @@ public class Employee {
 
 
     @ManyToOne
-    @JoinColumn(name="id_salon")
+    @JoinColumn(name="idSalon")
     private Salon salonEmployee;
 
 
-    @OneToMany(mappedBy = "employee_start")
-    private List<Reservation> reservations_start;
+    @OneToMany(mappedBy = "employeeStart")
+    private List<Reservation> reservationsStart;
 
-    @OneToMany(mappedBy = "employee_end")
-    private List<Reservation> reservations_end;
+    @OneToMany(mappedBy = "employeeEnd")
+    private List<Reservation> reservationsEnd;
 }

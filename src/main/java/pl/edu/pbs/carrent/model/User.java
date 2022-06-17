@@ -49,7 +49,7 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
 
-    @OneToMany(mappedBy = "user_reservation")
+    @OneToMany(mappedBy = "userReservation")
     private List<Reservation> reservation;
 
 }

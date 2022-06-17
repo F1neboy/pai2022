@@ -20,30 +20,30 @@ public class Reservation {
     private Date endDate;
     @Enumerated(EnumType.STRING)
     private ReservationState state;
-    private Date expected_end_date;
+    private Date expectedEndDate;
 
     @ManyToOne
-    @JoinColumn(name="id_user")
-    private User user_reservation;
+    @JoinColumn(name="idUser")
+    private User userReservation;
 
     @ManyToOne
-    @JoinColumn(name="id_car")
-    private Car car_reservation;
+    @JoinColumn(name="idCar")
+    private Car carReservation;
 
     @ManyToOne
-    @JoinColumn(name="id_salon_start")
-    private Salon salon_start;
+    @JoinColumn(name="idSalonStart")
+    private Salon salonStart;
     @ManyToOne
-    @JoinColumn(name="id_salon_end")
-    private Salon salon_end;
+    @JoinColumn(name="idSalonEnd")
+    private Salon salonEnd;
 
     @ManyToOne
-    @JoinColumn(name="id_employee_start")
-    private Employee employee_start;
+    @JoinColumn(name="idEmployeeStart")
+    private Employee employeeStart;
 
     @ManyToOne
-    @JoinColumn(name="id_employee_end")
-    private Employee employee_end;
+    @JoinColumn(name="idEmployeeEnd")
+    private Employee employeeEnd;
 
 
 

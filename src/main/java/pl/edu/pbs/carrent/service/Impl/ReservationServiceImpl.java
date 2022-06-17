@@ -1,5 +1,7 @@
 package pl.edu.pbs.carrent.service.Impl;
 
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 import pl.edu.pbs.carrent.model.Reservation;
 import pl.edu.pbs.carrent.model.ReservationState;
 import pl.edu.pbs.carrent.model.Salon;
@@ -14,13 +16,16 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
+
+@Service
+@AllArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
 
-    private ReservationRepository reservationRepository;
+    private final ReservationRepository reservationRepository;
 
-    private SalonService salonService;
+    private final SalonService salonService;
 
-    private UserService userService;
+    private final UserService userService;
 
     @Override
     public List<Reservation> getReservations() {
@@ -30,19 +35,19 @@ public class ReservationServiceImpl implements ReservationService {
     @Override
     public List<Reservation> getReservationBySalonStart(Long salonId) {
         Salon salon = salonService.getSalonById(salonId).orElseThrow(NoSuchElementException::new);
-        return reservationRepository.findReservationBySalon_start(salon);
+        return reservationRepository.findReservationsBySalonStart(salon);
     }
 
     @Override
     public List<Reservation> getReservationBySalonEnd(Long salonId) {
         Salon salon = salonService.getSalonById(salonId).orElseThrow(NoSuchElementException::new);
-        return reservationRepository.findReservationBySalon_end(salon);
+        return reservationRepository.findReservationsBySalonEnd(salon);
     }
 
     @Override
     public List<Reservation> getReservationByUser(Long userId) {
         User user = userService.getUserById(userId).orElseThrow(NoSuchElementException::new);
-        return reservationRepository.findReservationByUser_reservation(user);
+        return reservationRepository.findReservationsByUserReservation(user);
     }
 
     @Override
@@ -59,13 +64,14 @@ public class ReservationServiceImpl implements ReservationService {
     public Optional<Reservation> updateReservationStatus(Long id, ReservationState reservationState) {
         Reservation reservation=reservationRepository.findById(id).orElseThrow(NoSuchElementException::new);
         reservation.setState(reservationState);
-
         return Optional.of(reservationRepository.save(reservation));
     }
 
     @Override
     public Optional<Reservation> updateEndDate(Long id, Date end_date) {
-        return Optional.empty();
+        Reservation reservation=reservationRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        reservation.setEndDate(end_date);
+        return Optional.of(reservationRepository.save(reservation));
     }
 
     @Override
