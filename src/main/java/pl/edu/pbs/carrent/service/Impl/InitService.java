@@ -3,9 +3,7 @@ package pl.edu.pbs.carrent.service.Impl;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import pl.edu.pbs.carrent.model.Role;
-import pl.edu.pbs.carrent.model.RoleName;
-import pl.edu.pbs.carrent.model.User;
+import pl.edu.pbs.carrent.model.*;
 import pl.edu.pbs.carrent.repository.*;
 //
 import javax.annotation.PostConstruct;
@@ -52,7 +50,7 @@ public class InitService {
 //        u1.setRoles(r_u1);
 //
 //        userRepository.save(u1);
-          User u2 = new User("Andrzej","Nowak","andrzej.n@wp.pl","504930194","Kwiatowa 14 Bydgoszcz","12-05-1999","andrzejnowak","98fniasni8x!");
+          /*User u2 = new User("Andrzej","Nowak","andrzej.n@wp.pl","504930194","Kwiatowa 14 Bydgoszcz","12-05-1999","andrzejnowak","98fniasni8x!");
           Set<Role> r_u2 = new HashSet<>();
           r_u2.add(r1);
 
@@ -128,10 +126,9 @@ public class InitService {
           Car c12 = new Car("C3","2018, zielony","Citroen",3,1);
           Car c13 = new Car("Leon","2011, srebrny","Seat",3,1);
           Car c14 = new Car("I20","2017, czarny","Hyundai",3,1);
-          Car c15 = new Car("Q3","2020, czarny","Audi",3,1);
-          
+          Car c15 = new Car("Q3","2020, czarny","Audi",3,1);*/
 
-          
+
 //
-//    }
-//}
+    }
+}
