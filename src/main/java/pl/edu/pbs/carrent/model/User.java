@@ -24,7 +24,7 @@ public class User {
         this.email = email;
         this.phone = phone;
         this.address = address;
-        Birthdate = birthdate;
+        this.birthdate = birthdate;
         this.username = username;
         this.password = password;
     }
@@ -37,7 +37,7 @@ public class User {
     private String email;
     private String phone;
     private String address;
-    private Date Birthdate;
+    private Date birthdate;
     private String username;
     @NotBlank
     @Size(max = 120)
@@ -47,9 +47,4 @@ public class User {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
-
-
-    @OneToMany(mappedBy = "userReservation")
-    private List<Reservation> reservation;
-
 }

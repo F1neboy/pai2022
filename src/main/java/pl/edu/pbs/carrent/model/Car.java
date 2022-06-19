@@ -24,7 +24,4 @@ public class Car {
     @JoinColumn(name="id_salon")
     private Salon salon;
     private Boolean available;
-
-    @OneToMany(mappedBy = "carReservation")
-    private List<Reservation> reservations;
 }

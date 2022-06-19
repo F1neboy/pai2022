@@ -16,19 +16,11 @@ public class Employee {
     @Id
     @GeneratedValue
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String phone;
-
+    @OneToOne
+    @JoinColumn(name = "id_user")
+    private User user;
 
     @ManyToOne
     @JoinColumn(name="idSalon")
     private Salon salonEmployee;
-
-
-    @OneToMany(mappedBy = "employeeStart")
-    private List<Reservation> reservationsStart;
-
-    @OneToMany(mappedBy = "employeeEnd")
-    private List<Reservation> reservationsEnd;
 }

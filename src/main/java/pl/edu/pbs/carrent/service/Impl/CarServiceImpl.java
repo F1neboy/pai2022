@@ -69,6 +69,9 @@ public class CarServiceImpl implements CarService {
         if(car.getDescription() != null) {
             newCar.setDescription(car.getDescription());
         }
+        if(car.getImageLink() != null) {
+            newCar.setImageLink(car.getImageLink());
+        }
         return Optional.of(carRepository.save(newCar));
     }
 
