@@ -56,10 +56,8 @@ public class ReservationControllerImpl implements ReservationController {
 
     @Override
     @PostMapping("/reservation")
-    public ResponseEntity<Reservation> addReservation(@RequestBody Reservation reservation, @RequestBody Car car) {
-        Reservation reservation1=reservation;
-        reservation1.setCarReservation(car);
-        return ResponseEntity.of(reservationService.addReservation(reservation1));
+    public ResponseEntity<Reservation> addReservation(@RequestBody Reservation reservation) {
+        return ResponseEntity.of(reservationService.addReservation(reservation));
     }
 
     @Override

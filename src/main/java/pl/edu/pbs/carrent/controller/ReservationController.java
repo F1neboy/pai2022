@@ -20,7 +20,7 @@ public interface ReservationController {
 
     ResponseEntity<Reservation> getReservation(Long id);
 
-    ResponseEntity<Reservation> addReservation(Reservation reservation, Car car);
+    ResponseEntity<Reservation> addReservation(Reservation reservation);
 
     ResponseEntity<Reservation> updateReservationStatus(Long id, ReservationState reservationState);
 
