@@ -1,5 +1,6 @@
 package pl.edu.pbs.carrent.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -41,6 +42,7 @@ public class User {
     private String username;
     @NotBlank
     @Size(max = 120)
+    @JsonIgnore
     private String password;
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",

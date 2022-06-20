@@ -49,6 +49,7 @@ public class UserDetailsImpl implements UserDetails {
         return email;
     }
     @Override
+    @JsonIgnore
     public String getPassword() {
         return password;
     }
