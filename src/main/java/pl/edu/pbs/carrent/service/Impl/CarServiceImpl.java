@@ -2,12 +2,16 @@ package pl.edu.pbs.carrent.service.Impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import pl.edu.pbs.carrent.model.Car;
 import pl.edu.pbs.carrent.model.Salon;
+import pl.edu.pbs.carrent.payload.request.ResultInfo;
 import pl.edu.pbs.carrent.repository.CarRepository;
 import pl.edu.pbs.carrent.service.CarService;
+import pl.edu.pbs.carrent.service.FileUploadService;
 import pl.edu.pbs.carrent.service.SalonService;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -17,7 +21,9 @@ import java.util.Optional;
 public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
+    private final FileUploadService fileUploadService;
     private final SalonService salonService;
+
 
     @Override
     public List<Car> getCars() {
@@ -46,11 +52,20 @@ public class CarServiceImpl implements CarService {
         return carRepository.findById(id);
     }
 
+
     @Override
-    public Optional<Car> addNewCar(Car car) {
+    public Optional<Car> addNewCar(Car car, String localPath, MultipartFile fileName) {
+
+        ResultInfo resultInfo;
+        try {
+            resultInfo = fileUploadService.fileUpload(localPath, car.getModel(), fileName.getOriginalFilename());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        car.setImageLink(resultInfo.getPathFile()+fileName.getOriginalFilename());
+
         return Optional.of(carRepository.save(car));
     }
-
     @Override
     public Optional<Car> updateCar(Long id, Car car) {
         Car newCar = carRepository.findById(id).orElseThrow(NoSuchElementException::new);
