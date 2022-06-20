@@ -1,6 +1,7 @@
 package pl.edu.pbs.carrent.controller;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.multipart.MultipartFile;
 import pl.edu.pbs.carrent.model.Car;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface CarController {
 
     ResponseEntity<Car> updateCar(Long id, Car car);
 
-    ResponseEntity<Car> addNewCar(Car car);
+    ResponseEntity<Car> addNewCar(Car car,String localPath, MultipartFile fileName);
 
     void deleteCar(Long id);
 }

@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pl.edu.pbs.carrent.controller.CarController;
 import pl.edu.pbs.carrent.model.Car;
 import pl.edu.pbs.carrent.service.CarService;
@@ -51,14 +52,15 @@ public class CarControllerImpl implements CarController {
 
     @Override
     @PatchMapping("/cars/{id}")
-    public ResponseEntity<Car> updateCar(@PathVariable Long id, @RequestBody Car car) {
+    public ResponseEntity<Car> updateCar(@PathVariable Long id, @RequestBody Car car ) {
         return ResponseEntity.of(carService.updateCar(id, car));
     }
 
     @Override
     @PostMapping("/cars")
-    public ResponseEntity<Car> addNewCar(@RequestBody Car car) {
-        return ResponseEntity.of(carService.addNewCar(car));
+    public ResponseEntity<Car> addNewCar(@RequestBody Car car,String localPath, MultipartFile fileName) {
+
+        return ResponseEntity.of(carService.addNewCar(car,localPath,fileName));
     }
 
     @Override
