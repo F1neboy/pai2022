@@ -20,7 +20,7 @@ public interface CarController {
 
     ResponseEntity<Car> updateCar(Long id, Car car);
 
-    ResponseEntity<Car> addNewCar(Car car,String localPath, MultipartFile fileName);
+    ResponseEntity<Car> addNewCar(String carJson, MultipartFile fileName);
 
     void deleteCar(Long id);
 }
