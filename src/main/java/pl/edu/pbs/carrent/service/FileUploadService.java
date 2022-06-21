@@ -5,5 +5,5 @@ import pl.edu.pbs.carrent.payload.request.ResultInfo;
 import java.io.IOException;
 
 public interface FileUploadService {
-     public ResultInfo fileUpload(String localPath, String userid, String fileName) throws IOException;
+     public ResultInfo fileUpload(String localPath, String fileName) throws IOException;
 }

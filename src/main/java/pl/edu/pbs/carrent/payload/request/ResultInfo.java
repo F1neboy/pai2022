@@ -7,14 +7,14 @@ public class ResultInfo<T> {
 
     public T data;
 
-    public Path pathFolder;
+    public String pathFolder;
     public Path pathFile;
 
-    public Path getPathFolder() {
+    public String getPathFolder() {
         return pathFolder;
     }
 
-    public void setPathFolder(Path pathFolder) {
+    public void setPathFolder(String pathFolder) {
         this.pathFolder = pathFolder;
     }
 

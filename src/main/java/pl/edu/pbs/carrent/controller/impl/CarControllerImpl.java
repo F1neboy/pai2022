@@ -1,5 +1,7 @@
 package pl.edu.pbs.carrent.controller.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,6 +21,7 @@ import java.util.List;
 public class CarControllerImpl implements CarController {
 
     private final CarService carService;
+    private final ObjectMapper objectMapper;
 
     @Override
     @GetMapping("/cars")
@@ -57,10 +60,16 @@ public class CarControllerImpl implements CarController {
     }
 
     @Override
-    @PostMapping("/cars")
-    public ResponseEntity<Car> addNewCar(@RequestBody Car car,String localPath, MultipartFile fileName) {
+    @PostMapping(path = "/cars", consumes = { "multipart/form-data" })
+    public ResponseEntity<Car> addNewCar(@RequestPart("car") String carJson, @RequestPart("file") MultipartFile file) {
+        Car car = null;
+        try {
+            car = objectMapper.readValue(carJson, Car.class);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
 
-        return ResponseEntity.of(carService.addNewCar(car,localPath,fileName));
+        return ResponseEntity.of(carService.addNewCar(car, file));
     }
 
     @Override

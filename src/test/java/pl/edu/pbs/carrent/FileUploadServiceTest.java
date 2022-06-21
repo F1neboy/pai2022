@@ -26,7 +26,7 @@ public class FileUploadServiceTest {
         System.out.println("+++++++++++++++++++++"+localPath);
         String fileName = "1.png";
         String userid = "23";
-ResultInfo resultInfo = fileUploadService.fileUpload(localPath,userid,fileName);
+ResultInfo resultInfo = fileUploadService.fileUpload(localPath,fileName);
 
         System.out.println(resultInfo.getPathFolder()+"\\"+fileName);
         resultInfo.setPathFile(Path.of(resultInfo.getPathFolder() + "\\" + fileName));

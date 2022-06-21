@@ -10,17 +10,21 @@ import pl.edu.pbs.carrent.service.utils.FtpUtil;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.nio.file.Path;
+
 @Service
 @Slf4j
 public class FileUploadServiceImpl implements FileUploadService {
+
+    private static final String IMAGE_SERVER_URL = "https://wieczarekaleksander.pl";
+
     @Override
-    public ResultInfo fileUpload(String localPath, String userid, String fileName) throws IOException {
+    public ResultInfo fileUpload(String localPath, String fileName) throws IOException {
+        String userid = "pai";
         ResultInfo resultInfo = new ResultInfo();
         FtpUtil ftpUtil = new FtpUtil();
         Boolean aBoolean = ftpUtil.ftpLogin();
         if (!aBoolean){
-            log.error("FTPLogowanie użytkownika nie powiodło się");
+            log.error("FTP :: Logowanie użytkownika nie powiodło się");
             resultInfo.setResultCode(ResponseCode.FTP_LOGIN_ERROR);
             return resultInfo;
         }
@@ -31,15 +35,16 @@ public class FileUploadServiceImpl implements FileUploadService {
 
         Boolean isChangeUserSuccess = ftpUtil.changeWorkingDirectory(userid);
         if (!isChangeUserSuccess){
-            log.error("FTPNie udało się przełączyć katalogu użytkownika, katalog użytkownika nie istnieje, najpierw utwórz katalog użytkownika");
+            log.error("FTP :: Nie udało się przełączyć katalogu użytkownika, katalog użytkownika nie istnieje, najpierw utwórz katalog użytkownika");
             ftpUtil.makeDirectory(userid);
         }
         Boolean isStoreFile = ftpUtil.storeFile(fileName, inputStream,userid);
         String  s= ftpUtil.printWorkingDirectory();
-
-        resultInfo.setPathFolder(Path.of(s));
+        s = s.replace("\\\\", "/");
+        s = s.replace("/websites/aleksanderwieczarek", IMAGE_SERVER_URL);
+        resultInfo.setPathFolder(s);
         if(!isStoreFile){
-            log.error("FTP\n" +
+            log.error("FTP :: " +
                     "Nie udało się przesłać pliku po stronie serwera");
 
             resultInfo.setResultCode(ResponseCode.FTP_STOREFILE_ERROR);
@@ -48,7 +53,7 @@ public class FileUploadServiceImpl implements FileUploadService {
         }
         Boolean isLogout = ftpUtil.ftpLogout();
         if (!isLogout){
-            log.error("FTPWylogowanie z serwera FTP nie powiodło się");
+            log.error("FTP :: Wylogowanie z serwera FTP nie powiodło się");
             resultInfo.setResultCode(ResponseCode.FTP_LOGOUT_ERROR);
             return resultInfo;
         }
