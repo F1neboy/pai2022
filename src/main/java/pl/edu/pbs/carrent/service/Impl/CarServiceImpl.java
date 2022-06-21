@@ -2,12 +2,21 @@ package pl.edu.pbs.carrent.service.Impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import pl.edu.pbs.carrent.model.Car;
 import pl.edu.pbs.carrent.model.Salon;
+import pl.edu.pbs.carrent.payload.request.ResponseCode;
+import pl.edu.pbs.carrent.payload.request.ResultInfo;
 import pl.edu.pbs.carrent.repository.CarRepository;
 import pl.edu.pbs.carrent.service.CarService;
+import pl.edu.pbs.carrent.service.FileUploadService;
 import pl.edu.pbs.carrent.service.SalonService;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -17,7 +26,9 @@ import java.util.Optional;
 public class CarServiceImpl implements CarService {
 
     private final CarRepository carRepository;
+    private final FileUploadService fileUploadService;
     private final SalonService salonService;
+
 
     @Override
     public List<Car> getCars() {
@@ -46,11 +57,48 @@ public class CarServiceImpl implements CarService {
         return carRepository.findById(id);
     }
 
+
     @Override
-    public Optional<Car> addNewCar(Car car) {
+    public Optional<Car> addNewCar(Car car, MultipartFile file) {
+
+        ResultInfo resultInfo;
+        String fileName = file.getOriginalFilename();
+
+        if (!file.isEmpty()) {
+            try {
+                byte[] bytes = file.getBytes();
+
+                // Creating the directory to store file
+                String rootPath = System.getProperty("user.home");
+                File dir = new File(rootPath + File.separator + "tmpFiles");
+                if (!dir.exists()) {
+                    dir.mkdirs();
+                }
+
+                // Create the file on server
+                File serverFile = new File(dir.getAbsolutePath() + File.separator + fileName);
+                BufferedOutputStream stream = new BufferedOutputStream(new FileOutputStream(serverFile));
+                stream.write(bytes);
+                stream.close();
+
+                System.out.println("Server File Location=" + serverFile.getAbsolutePath());
+
+
+                resultInfo = fileUploadService.fileUpload(serverFile.getAbsolutePath(), file.getOriginalFilename());
+                serverFile.delete();
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+            if(resultInfo.getResultCode().equals(ResponseCode.SUCCESS))
+                car.setImageLink(resultInfo.getPathFolder() + "/" + file.getOriginalFilename());
+            else {
+                throw new RuntimeException();
+            }
+        }
+        Salon salon = salonService.getSalonById(car.getSalon().getId()).orElseThrow(NoSuchElementException::new);
+        car.setSalon(salon);
         return Optional.of(carRepository.save(car));
     }
-
     @Override
     public Optional<Car> updateCar(Long id, Car car) {
         Car newCar = carRepository.findById(id).orElseThrow(NoSuchElementException::new);

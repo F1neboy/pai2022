@@ -1,10 +1,13 @@
 package pl.edu.pbs.carrent.controller.impl;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import pl.edu.pbs.carrent.controller.CarController;
 import pl.edu.pbs.carrent.model.Car;
 import pl.edu.pbs.carrent.service.CarService;
@@ -18,6 +21,7 @@ import java.util.List;
 public class CarControllerImpl implements CarController {
 
     private final CarService carService;
+    private final ObjectMapper objectMapper;
 
     @Override
     @GetMapping("/cars")
@@ -51,14 +55,21 @@ public class CarControllerImpl implements CarController {
 
     @Override
     @PatchMapping("/cars/{id}")
-    public ResponseEntity<Car> updateCar(@PathVariable Long id, @RequestBody Car car) {
+    public ResponseEntity<Car> updateCar(@PathVariable Long id, @RequestBody Car car ) {
         return ResponseEntity.of(carService.updateCar(id, car));
     }
 
     @Override
-    @PostMapping("/cars")
-    public ResponseEntity<Car> addNewCar(@RequestBody Car car) {
-        return ResponseEntity.of(carService.addNewCar(car));
+    @PostMapping(path = "/cars", consumes = { "multipart/form-data" })
+    public ResponseEntity<Car> addNewCar(@RequestPart("car") String carJson, @RequestPart("file") MultipartFile file) {
+        Car car = null;
+        try {
+            car = objectMapper.readValue(carJson, Car.class);
+        } catch (JsonProcessingException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
+
+        return ResponseEntity.of(carService.addNewCar(car, file));
     }
 
     @Override

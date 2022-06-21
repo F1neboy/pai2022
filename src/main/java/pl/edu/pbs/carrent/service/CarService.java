@@ -1,5 +1,6 @@
 package pl.edu.pbs.carrent.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import pl.edu.pbs.carrent.model.Car;
 
 import java.util.List;
@@ -17,8 +18,7 @@ public interface CarService {
 
     Optional<Car> getCarById(Long id);
 
-    Optional<Car> addNewCar(Car car);
-
+    Optional<Car> addNewCar(Car car, MultipartFile fileName);
     Optional<Car> updateCar(Long id, Car car);
 
     void deleteCar(Long id);
