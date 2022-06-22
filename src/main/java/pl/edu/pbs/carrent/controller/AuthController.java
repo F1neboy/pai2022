@@ -1,9 +1,6 @@
 package pl.edu.pbs.carrent.controller;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +28,7 @@ import pl.edu.pbs.carrent.payload.response.MessageResponse;
 import pl.edu.pbs.carrent.payload.response.UserInfoResponse;
 import pl.edu.pbs.carrent.security.jwt.JwtUtils;
 import pl.edu.pbs.carrent.security.services.UserDetailsImpl;
+import pl.edu.pbs.carrent.service.EmployeeService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -46,6 +44,8 @@ public class AuthController {
     PasswordEncoder encoder;
     @Autowired
     JwtUtils jwtUtils;
+    @Autowired
+    EmployeeService employeeService;
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
         Authentication authentication = authenticationManager
@@ -57,11 +57,17 @@ public class AuthController {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(item -> item.getAuthority())
                 .collect(Collectors.toList());
+        Long emloyeeId = null;
+        if(roles.contains(RoleName.ROLE_EMPLOYEE.name())) {
+            emloyeeId = employeeService.getEmployeeByUserId(userDetails.getId())
+                    .orElseThrow(NoSuchElementException::new)
+                    .getId();
+        }
         return ResponseEntity.ok()
                 .body(new UserInfoResponse(userDetails.getId(),
                         userDetails.getUsername(),
                         userDetails.getEmail(),
-                        roles,jwtCookie));
+                        roles,jwtCookie, emloyeeId));
     }
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {

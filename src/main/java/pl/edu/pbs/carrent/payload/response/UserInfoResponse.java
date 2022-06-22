@@ -1,7 +1,10 @@
 package pl.edu.pbs.carrent.payload.response;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.util.List;
 
+@JsonInclude(JsonInclude.Include.NON_EMPTY)
 public class UserInfoResponse {
     private Long id;
     private String username;
@@ -9,6 +12,7 @@ public class UserInfoResponse {
     private List<String> roles;
     private String accessToken;
     private String tokenType = "Bearer";
+    private Long employeeId;
 
 
     public void setRoles(List<String> roles) {
@@ -31,12 +35,13 @@ public class UserInfoResponse {
         this.tokenType = tokenType;
     }
 
-    public UserInfoResponse(Long id, String username, String email, List<String> roles, String accessToken) {
+    public UserInfoResponse(Long id, String username, String email, List<String> roles, String accessToken, Long employeeId) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.roles = roles;
         this.accessToken = accessToken;
+        this.employeeId = employeeId;
     }
 
     public Long getId() {
@@ -65,5 +70,13 @@ public class UserInfoResponse {
 
     public List<String> getRoles() {
         return roles;
+    }
+
+    public Long getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(Long employeeId) {
+        this.employeeId = employeeId;
     }
 }

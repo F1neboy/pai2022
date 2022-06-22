@@ -4,9 +4,11 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import pl.edu.pbs.carrent.model.Employee;
 import pl.edu.pbs.carrent.model.Salon;
+import pl.edu.pbs.carrent.model.User;
 import pl.edu.pbs.carrent.repository.EmployeeRepository;
 import pl.edu.pbs.carrent.service.EmployeeService;
 import pl.edu.pbs.carrent.service.SalonService;
+import pl.edu.pbs.carrent.service.UserService;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -18,10 +20,17 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private final EmployeeRepository employeeRepository;
     private final SalonService salonService;
+    private final UserService userService;
 
     @Override
     public Optional<Employee> getEmployeeById(Long id) {
         return employeeRepository.findById(id);
+    }
+
+    @Override
+    public Optional<Employee> getEmployeeByUserId(Long id) {
+        User user = userService.getUserById(id).orElseThrow(NoSuchElementException::new);
+        return employeeRepository.findByUser(user);
     }
 
     @Override

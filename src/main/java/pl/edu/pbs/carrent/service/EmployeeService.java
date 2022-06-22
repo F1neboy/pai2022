@@ -10,6 +10,8 @@ public interface EmployeeService {
 
     Optional<Employee> getEmployeeById(Long id);
 
+    Optional<Employee> getEmployeeByUserId(Long id);
+
     List<Employee> getEmployees();
 
     List<Employee> getEmployeesBySalonId(Long salonId);
