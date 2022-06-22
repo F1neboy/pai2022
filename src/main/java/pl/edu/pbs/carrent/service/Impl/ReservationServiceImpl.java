@@ -2,15 +2,13 @@ package pl.edu.pbs.carrent.service.Impl;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import pl.edu.pbs.carrent.model.Reservation;
-import pl.edu.pbs.carrent.model.ReservationState;
-import pl.edu.pbs.carrent.model.Salon;
-import pl.edu.pbs.carrent.model.User;
+import pl.edu.pbs.carrent.model.*;
 import pl.edu.pbs.carrent.repository.ReservationRepository;
 import pl.edu.pbs.carrent.service.ReservationService;
 import pl.edu.pbs.carrent.service.SalonService;
 import pl.edu.pbs.carrent.service.UserService;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -73,6 +71,16 @@ public class ReservationServiceImpl implements ReservationService {
         reservation.setEndDate(end_date);
         return Optional.of(reservationRepository.save(reservation));
     }
+
+    @Override
+    public Optional<Reservation> endReservation(Long id, Employee employee) {
+        Reservation reservation=reservationRepository.findReservationById(id);
+        reservation.setEndDate(java.sql.Date.valueOf(LocalDate.now()));
+        reservation.setEmployeeEnd(employee);
+        reservation.setState(ReservationState.DONE);
+        return Optional.of(reservationRepository.save(reservation));
+    }
+
 
     @Override
     public void deleteReservation(Long id) {

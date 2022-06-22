@@ -6,15 +6,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import pl.edu.pbs.carrent.controller.ReservationController;
-import pl.edu.pbs.carrent.model.Car;
-import pl.edu.pbs.carrent.model.Reservation;
-import pl.edu.pbs.carrent.model.ReservationState;
-import pl.edu.pbs.carrent.model.Salon;
-import pl.edu.pbs.carrent.service.Impl.ReservationServiceImpl;
+import pl.edu.pbs.carrent.model.*;
 import pl.edu.pbs.carrent.service.ReservationService;
 
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @AllArgsConstructor
@@ -70,6 +68,11 @@ public class ReservationControllerImpl implements ReservationController {
     @PatchMapping("/reservation/end/{id}")
     public ResponseEntity<Reservation> updateEndDate(@PathVariable Long id, @RequestBody Date end_date) {
         return ResponseEntity.of(reservationService.updateEndDate(id, end_date));
+    }
+    @Override
+    @PatchMapping("/reservation/done/{id}")
+    public ResponseEntity<Reservation> endReservation(@PathVariable Long id, @RequestBody Employee employee) {
+        return ResponseEntity.of(reservationService.endReservation(id, employee));
     }
 
     @Override
